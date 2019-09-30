@@ -110,6 +110,7 @@ void goToGame() {
     fillScreen(BLACK);
 
     // TODO 3.0: Write "Balls Remaining: " in a free area
+    drawString(5, 145, "BALLS REMAINING", WHITE);
 
 
     state = GAME;
@@ -121,13 +122,15 @@ void game() {
     updateGame();
 
     // TODO 3.1: Update the buffer string with the current balls remaining
+    sprintf(buffer, "%d", ballsRemaining);
 
 
     waitForVBlank();
     drawGame();
 
     // TODO 3.2: Erase the old number and write the new one
-
+    drawRect(107, 145, 6, 8, BLACK);
+    drawString(107, 145, buffer, WHITE);
 
 
     // State transitions
@@ -145,9 +148,10 @@ void goToPause() {
     fillScreen(GRAY);
 
     // TODO 1.1: Draw a capital P somewhere on the screen
+    //drawChar(20, 20, 'P', BLACK);
 
     // TODO 2.1: Remove the previous call to drawChar and write "Pause"
-
+    drawString(20, 20, "PAUSE", BLACK);
 
     state = PAUSE;
 }
@@ -171,6 +175,7 @@ void goToWin() {
     fillScreen(GREEN);
 
     // TODO 2.2: Write "Win" to the screen
+    drawString(20, 20, "WIN", BLACK);
 
 
     state = WIN;
@@ -193,6 +198,7 @@ void goToLose() {
     fillScreen(RED);
 
     // TODO 2.3: Write "Lose" to the screen
+    drawString(20, 20, "LOSE", BLACK);
     
 
     state = LOSE;

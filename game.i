@@ -835,7 +835,7 @@ extern unsigned short buttons;
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
-    unsigned int cnt;
+    volatile unsigned int cnt;
 } DMA;
 
 
@@ -1077,7 +1077,7 @@ void drawBullet(BULLET* b) {
   drawRect(b->oldCol, b->oldRow, b->width, b->height, 0);
   drawRect(b->col, b->row, b->width, b->height, b->color);
  } else if (!b->erased) {
-  drawRect(b->oldcol, b->oldRow, b->width, b->height, 0);
+  drawRect(b->oldCol, b->oldRow, b->width, b->height, 0);
   b->erased = 1;
  }
  b->oldRow = b->row;

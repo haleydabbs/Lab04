@@ -77,7 +77,7 @@ extern unsigned short buttons;
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
-    unsigned int cnt;
+    volatile unsigned int cnt;
 } DMA;
 
 // First DMA Register Address

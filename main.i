@@ -1246,7 +1246,7 @@ extern unsigned short buttons;
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
-    unsigned int cnt;
+    volatile unsigned int cnt;
 } DMA;
 
 
@@ -1442,6 +1442,7 @@ void goToGame() {
     fillScreen(0);
 
 
+    drawString(5, 145, "BALLS REMAINING", ((31) | (31)<<5 | (31)<<10));
 
 
     state = GAME;
@@ -1453,13 +1454,15 @@ void game() {
     updateGame();
 
 
+    sprintf(buffer, "%d", ballsRemaining);
 
 
     waitForVBlank();
     drawGame();
 
 
-
+    drawRect(107, 145, 6, 8, 0);
+    drawString(107, 145, buffer, ((31) | (31)<<5 | (31)<<10));
 
 
 
@@ -1480,6 +1483,7 @@ void goToPause() {
 
 
 
+    drawString(20, 20, "PAUSE", 0);
 
     state = PAUSE;
 }
@@ -1503,6 +1507,7 @@ void goToWin() {
     fillScreen(((0) | (31)<<5 | (0)<<10));
 
 
+    drawString(20, 20, "WIN", 0);
 
 
     state = WIN;
@@ -1525,6 +1530,7 @@ void goToLose() {
     fillScreen(((31) | (0)<<5 | (0)<<10));
 
 
+    drawString(20, 20, "LOSE", 0);
 
 
     state = LOSE;

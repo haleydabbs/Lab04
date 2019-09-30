@@ -159,7 +159,7 @@ void drawBullet(BULLET* b) {
 		drawRect(b->oldCol, b->oldRow, b->width, b->height, BLACK);
 		drawRect(b->col, b->row, b->width, b->height, b->color);
 	} else if (!b->erased) {
-		drawRect(b->oldcol, b->oldRow, b->width, b->height, BLACK);
+		drawRect(b->oldCol, b->oldRow, b->width, b->height, BLACK);
 		b->erased = 1;
 	}
 	b->oldRow = b->row;

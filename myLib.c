@@ -14,19 +14,31 @@ void setPixel(int col, int row, unsigned short color) {
 // Draw a rectangle at the specified location and size
 void drawRect(int col, int row, int width, int height, unsigned short color) {
     // TODO 4.2: Rewrite this function using DMA
-	for(int r = 0; r < height; r++) {
-        for(int c = 0; c < width; c++) {
-            videoBuffer[OFFSET(col+c, row+r, SCREENWIDTH)] = color;
-        }
+	// for(int r = 0; r < height; r++) {
+    //     for(int c = 0; c < width; c++) {
+    //         videoBuffer[OFFSET(col+c, row+r, SCREENWIDTH)] = color;
+    //     }
+    // }
+
+    volatile unsigned short c = color;
+
+    for (int y = 0; y < height; y++) {
+        DMANow(3, &c, &videoBuffer[col + (SCREENWIDTH * (row + y))], width | DMA_DESTINATION_INCREMENT | DMA_SOURCE_FIXED);
     }
 }
 
 // Fill the entire screen with a single color
 void fillScreen(unsigned short color) {
     // TODO 4.1: Rewrite this function using DMA
-    for(int i = 0; i < SCREENHEIGHT * SCREENWIDTH; i++) {
-        videoBuffer[i] = color;
-    }
+    // for(int i = 0; i < SCREENHEIGHT * SCREENWIDTH; i++) {
+    //     videoBuffer[i] = color;
+    // }
+
+    // Addressed possible compiler bug
+    // Without using volatile for color, screen only drew in black no matter
+    // what was input for u16 color attribute
+    volatile unsigned short c = color;
+    DMANow(3, &c, videoBuffer, ((SCREENHEIGHT * SCREENWIDTH) | DMA_DESTINATION_INCREMENT | DMA_SOURCE_FIXED));
 }
 
 // Pause code execution until vertical blank begins
@@ -41,10 +53,16 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
     // TODO 4.0: Complete this function
     // First, turn this channel of DMA off (cnt = 0)
     dma[channel].cnt = 0;
+
     // Second, set the source and destination registers of this DMA channel to the given parameters
+    // dma[channel].src = src;
+    dma[channel].dst = dst;
+    dma[channel].src = src;
 
+    // Finally, set the control to the given parameter,
+    // and bitwise-or DMA_ON to the end to turn it on
+    dma[channel].cnt = (cnt | DMA_ON);
 
-    // Finally, set the control to the given parameter, and bitwise-or DMA_ON to the end to turn it on
 
 }
 
